@@ -76,7 +76,12 @@ public class CreditServiceImpl implements CreditService {
             throw new BusinessRuleException("Requested term is above the maximum for this credit type.");
         }
 
-        LocalDate startDate = dto.getStartDate() == null ? LocalDate.now() : dto.getStartDate();
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = dto.getStartDate() == null ? today : dto.getStartDate();
+
+        if (startDate.isBefore(today)) {
+            throw new BusinessRuleException("Credit start date cannot be in the past.");
+        }
 
         Credit credit = new Credit();
         credit.setClient(client);
@@ -126,10 +131,11 @@ public class CreditServiceImpl implements CreditService {
         }
 
         boolean hasUnpaidPreviousInstallments = installmentRepository
-                .findByCreditIdOrderByInstallmentNumber(installment.getCredit().getId())
-                .stream()
-                .anyMatch(current -> current.getInstallmentNumber() < installment.getInstallmentNumber()
-                        && current.getStatus() != InstallmentStatus.PAID);
+                .existsByCreditIdAndInstallmentNumberLessThanAndStatusNot(
+                        installment.getCredit().getId(),
+                        installment.getInstallmentNumber(),
+                        InstallmentStatus.PAID
+                );
 
         if (hasUnpaidPreviousInstallments) {
             throw new BusinessRuleException("Previous installments must be paid first.");

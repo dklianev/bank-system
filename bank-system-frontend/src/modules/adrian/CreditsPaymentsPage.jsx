@@ -11,6 +11,12 @@ const emptyCredit = {
   startDate: '',
 }
 
+function todayInputValue() {
+  const today = new Date()
+  today.setMinutes(today.getMinutes() - today.getTimezoneOffset())
+  return today.toISOString().slice(0, 10)
+}
+
 export default function CreditsPaymentsPage() {
   const [clients, setClients] = useState([])
   const [products, setProducts] = useState([])
@@ -20,6 +26,7 @@ export default function CreditsPaymentsPage() {
   const [creditForm, setCreditForm] = useState(emptyCredit)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const minStartDate = useMemo(() => todayInputValue(), [])
 
   const selectedProduct = useMemo(
     () => products.find((product) => product.id === Number(creditForm.creditProductId)),
@@ -183,6 +190,7 @@ export default function CreditsPaymentsPage() {
             <input
               className="form-control mb-3"
               type="date"
+              min={minStartDate}
               value={creditForm.startDate}
               onChange={(event) =>
                 setCreditForm((current) => ({ ...current, startDate: event.target.value }))

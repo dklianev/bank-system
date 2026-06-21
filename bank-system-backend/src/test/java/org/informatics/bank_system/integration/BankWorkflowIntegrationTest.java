@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,6 +38,10 @@ class BankWorkflowIntegrationTest {
 
     private TestRestTemplate asClient(String username, String password) {
         return restTemplate.withBasicAuth(username, password);
+    }
+
+    private String validStartDate() {
+        return LocalDate.now().plusDays(1).toString();
     }
 
     @Test
@@ -82,7 +87,7 @@ class BankWorkflowIntegrationTest {
                         "creditProductId", products[0].getId(),
                         "principalAmount", "10000.00",
                         "termMonths", 12,
-                        "startDate", "2026-06-01"
+                        "startDate", validStartDate()
                 ),
                 CreditDto.class
         );
@@ -152,7 +157,7 @@ class BankWorkflowIntegrationTest {
                         "creditProductId", products[0].getId(),
                         "principalAmount", "1200.00",
                         "termMonths", 2,
-                        "startDate", "2026-06-01"
+                        "startDate", validStartDate()
                 ),
                 CreditDto.class
         );
@@ -285,11 +290,11 @@ class BankWorkflowIntegrationTest {
         CreditProductDto[] products = admin().getForObject("/api/credits/products", CreditProductDto[].class);
         CreditDto creditA = admin().postForObject("/api/credits",
                 Map.of("clientId", clientA.getId(), "creditProductId", products[0].getId(),
-                        "principalAmount", "5000.00", "termMonths", 6, "startDate", "2026-06-01"),
+                        "principalAmount", "5000.00", "termMonths", 6, "startDate", validStartDate()),
                 CreditDto.class);
         CreditDto creditB = admin().postForObject("/api/credits",
                 Map.of("clientId", clientB.getId(), "creditProductId", products[0].getId(),
-                        "principalAmount", "5000.00", "termMonths", 6, "startDate", "2026-06-01"),
+                        "principalAmount", "5000.00", "termMonths", 6, "startDate", validStartDate()),
                 CreditDto.class);
 
         // Admin provisions a login for client A only.

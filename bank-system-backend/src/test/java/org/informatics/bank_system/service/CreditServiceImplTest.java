@@ -90,6 +90,21 @@ class CreditServiceImplTest {
     }
 
     @Test
+    void createCreditRejectsPastStartDate() {
+        CreateCreditDto dto = createCreditDto(new BigDecimal("10000.00"), 12);
+        dto.setStartDate(LocalDate.now().minusDays(1));
+
+        Mockito.when(clientService.getClientEntity(1L)).thenReturn(individualClient());
+        Mockito.when(creditProductRepository.findById(2L)).thenReturn(Optional.of(consumerProduct()));
+
+        BusinessRuleException exception =
+                assertThrows(BusinessRuleException.class, () -> creditService.createCredit(dto));
+
+        assertEquals("Credit start date cannot be in the past.", exception.getMessage());
+        Mockito.verify(creditRepository, Mockito.never()).save(any());
+    }
+
+    @Test
     void createCreditFailsForUnknownCreditProduct() {
         CreateCreditDto dto = createCreditDto(new BigDecimal("10000.00"), 12);
         dto.setCreditProductId(99L);
@@ -141,13 +156,16 @@ class CreditServiceImplTest {
     @Test
     void payInstallmentRejectsPaymentWhilePreviousInstallmentIsPending() {
         Credit credit = activeCredit();
-        RepaymentInstallment first = installment(credit, 1, InstallmentStatus.PENDING);
         RepaymentInstallment second = installment(credit, 2, InstallmentStatus.PENDING);
         second.setId(11L);
 
         Mockito.when(installmentRepository.findById(11L)).thenReturn(Optional.of(second));
         Mockito.when(userService.getCurrentUser()).thenReturn(adminUser());
-        Mockito.when(installmentRepository.findByCreditIdOrderByInstallmentNumber(5L)).thenReturn(List.of(first, second));
+        Mockito.when(installmentRepository.existsByCreditIdAndInstallmentNumberLessThanAndStatusNot(
+                5L,
+                2,
+                InstallmentStatus.PAID
+        )).thenReturn(true);
 
         BusinessRuleException exception =
                 assertThrows(BusinessRuleException.class, () -> creditService.payInstallment(11L));
@@ -165,7 +183,11 @@ class CreditServiceImplTest {
 
         Mockito.when(installmentRepository.findById(12L)).thenReturn(Optional.of(second));
         Mockito.when(userService.getCurrentUser()).thenReturn(adminUser());
-        Mockito.when(installmentRepository.findByCreditIdOrderByInstallmentNumber(5L)).thenReturn(List.of(first, second));
+        Mockito.when(installmentRepository.existsByCreditIdAndInstallmentNumberLessThanAndStatusNot(
+                5L,
+                2,
+                InstallmentStatus.PAID
+        )).thenReturn(false);
         Mockito.when(installmentRepository.save(second)).thenReturn(second);
 
         RepaymentInstallmentDto paid = creditService.payInstallment(12L);
@@ -233,7 +255,7 @@ class CreditServiceImplTest {
         dto.setCreditProductId(2L);
         dto.setPrincipalAmount(principalAmount);
         dto.setTermMonths(termMonths);
-        dto.setStartDate(LocalDate.of(2026, 6, 1));
+        dto.setStartDate(LocalDate.now().plusDays(1));
         return dto;
     }
 
