@@ -31,7 +31,6 @@ class BankWorkflowIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    // The DataInitializer seeds an admin/admin account; every operator call runs as that user.
     private TestRestTemplate admin() {
         return restTemplate.withBasicAuth("admin", "admin");
     }
@@ -297,7 +296,6 @@ class BankWorkflowIntegrationTest {
                         "principalAmount", "5000.00", "termMonths", 6, "startDate", validStartDate()),
                 CreditDto.class);
 
-        // Admin provisions a login for client A only.
         ResponseEntity<String> userCreated = admin().postForEntity("/api/users",
                 Map.of("clientId", clientA.getId(), "username", "anna", "password", "anna123"), String.class);
         assertEquals(HttpStatus.OK, userCreated.getStatusCode());
@@ -312,17 +310,14 @@ class BankWorkflowIntegrationTest {
         assertEquals(1, visibleCredits.length);
         assertEquals(creditA.getId(), visibleCredits[0].getId());
 
-        // Reading another client's repayment plan is forbidden (IDOR guard).
         ResponseEntity<String> foreignPlan = anna.getForEntity(
                 "/api/credits/" + creditB.getId() + "/installments", String.class);
         assertEquals(HttpStatus.FORBIDDEN, foreignPlan.getStatusCode());
 
-        // The same guard protects the credit status endpoint.
         ResponseEntity<String> foreignStatus = anna.getForEntity(
                 "/api/credits/" + creditB.getId() + "/status", String.class);
         assertEquals(HttpStatus.FORBIDDEN, foreignStatus.getStatusCode());
 
-        // Own repayment plan is visible and the first installment can be paid.
         RepaymentInstallmentDto[] ownPlan = anna.getForObject(
                 "/api/credits/" + creditA.getId() + "/installments", RepaymentInstallmentDto[].class);
         assertEquals(6, ownPlan.length);
@@ -330,7 +325,6 @@ class BankWorkflowIntegrationTest {
                 "/api/credits/installments/" + ownPlan[0].getId() + "/pay", null, RepaymentInstallmentDto.class);
         assertEquals("PAID", paid.getStatus());
 
-        // Paying a foreign installment is forbidden.
         RepaymentInstallmentDto[] foreignOwnerPlan = admin().getForObject(
                 "/api/credits/" + creditB.getId() + "/installments", RepaymentInstallmentDto[].class);
         ResponseEntity<String> foreignPay = anna.exchange(
@@ -338,7 +332,6 @@ class BankWorkflowIntegrationTest {
                 HttpMethod.PATCH, null, String.class);
         assertEquals(HttpStatus.FORBIDDEN, foreignPay.getStatusCode());
 
-        // Operator-only endpoints are forbidden for a client user.
         ResponseEntity<String> createClient = anna.postForEntity("/api/clients/individual",
                 Map.of("firstName", "X", "lastName", "Y", "egn", "9009091234"), String.class);
         assertEquals(HttpStatus.FORBIDDEN, createClient.getStatusCode());
@@ -356,7 +349,6 @@ class BankWorkflowIntegrationTest {
                 Map.of("clientId", client.getId(), "username", "galina", "password", "galina1"), String.class);
         assertEquals(HttpStatus.OK, first.getStatusCode());
 
-        // Same client cannot get a second login.
         ResponseEntity<String> secondForClient = admin().postForEntity("/api/users",
                 Map.of("clientId", client.getId(), "username", "galina2", "password", "galina1"), String.class);
         assertEquals(HttpStatus.BAD_REQUEST, secondForClient.getStatusCode());
@@ -364,7 +356,6 @@ class BankWorkflowIntegrationTest {
         ClientDto other = admin().postForObject("/api/clients/individual",
                 Map.of("firstName", "Hristo", "lastName", "Hristov", "egn", "9004041234"), ClientDto.class);
 
-        // Username must be unique.
         ResponseEntity<String> duplicateUsername = admin().postForEntity("/api/users",
                 Map.of("clientId", other.getId(), "username", "galina", "password", "galina1"), String.class);
         assertEquals(HttpStatus.BAD_REQUEST, duplicateUsername.getStatusCode());

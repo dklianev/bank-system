@@ -43,7 +43,6 @@ class RepaymentPlanCalculatorTest {
 
     @Test
     void calculateMonthlyPaymentMatchesAnnuityFormulaReferenceValue() {
-        // 10 000 at 7.50% annual for 12 months: A = P * r * (1+r)^n / ((1+r)^n - 1) = 867.57
         BigDecimal payment = calculator.calculateMonthlyPayment(
                 new BigDecimal("10000.00"),
                 new BigDecimal("0.00625"),

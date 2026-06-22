@@ -159,7 +159,6 @@ public class CreditServiceImpl implements CreditService {
         return mapCredit(credit);
     }
 
-    // ADMIN works with every credit; a CLIENT user may only touch credits of the linked bank client.
     private void assertCanAccessCredit(Credit credit) {
         User currentUser = userService.getCurrentUser();
         if (currentUser.hasAuthority(UserServiceImpl.ROLE_ADMIN)) {
