@@ -47,7 +47,7 @@ export default function ClientPortalPage() {
       await api.payInstallment(installmentId)
       await loadData()
       await loadInstallments(selectedCreditId)
-      setMessage('Installment was marked as paid.')
+      setMessage('Вноската е отбелязана като платена.')
     } catch (err) {
       setError(err.message)
     }
@@ -57,7 +57,7 @@ export default function ClientPortalPage() {
     <section>
       <div className="section-title">
         <div>
-          <h2>My banking</h2>
+          <h2>Клиентски портал</h2>
           <p>Преглед на собствените сметки, кредити и погасителен план.</p>
         </div>
       </div>
@@ -66,14 +66,14 @@ export default function ClientPortalPage() {
       <StatusMessage message={error} type="error" />
 
       <div className="content-panel">
-        <h3>My accounts</h3>
+        <h3>Моите сметки</h3>
         <div className="table-responsive">
           <table className="table table-sm align-middle">
             <thead>
               <tr>
                 <th>IBAN</th>
-                <th>Balance</th>
-                <th>Status</th>
+                <th>Наличност</th>
+                <th>Статус</th>
               </tr>
             </thead>
             <tbody>
@@ -91,7 +91,7 @@ export default function ClientPortalPage() {
               {accounts.length === 0 && (
                 <tr>
                   <td colSpan="3" className="empty-cell">
-                    No accounts yet.
+                    Все още няма сметки.
                   </td>
                 </tr>
               )}
@@ -101,18 +101,18 @@ export default function ClientPortalPage() {
       </div>
 
       <div className="content-panel">
-        <h3>My credits</h3>
+        <h3>Моите кредити</h3>
         <div className="table-responsive">
           <table className="table table-hover align-middle">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Type</th>
-                <th>Amount</th>
-                <th>Term</th>
-                <th>Monthly payment</th>
-                <th>Status</th>
-                <th>Plan</th>
+                <th>Вид</th>
+                <th>Сума</th>
+                <th>Срок</th>
+                <th>Месечна вноска</th>
+                <th>Статус</th>
+                <th>План</th>
               </tr>
             </thead>
             <tbody>
@@ -134,7 +134,7 @@ export default function ClientPortalPage() {
                       type="button"
                       onClick={() => setSelectedCreditId(String(credit.id))}
                     >
-                      Open
+                      Преглед
                     </button>
                   </td>
                 </tr>
@@ -142,7 +142,7 @@ export default function ClientPortalPage() {
               {credits.length === 0 && (
                 <tr>
                   <td colSpan="7" className="empty-cell">
-                    No credits yet.
+                    Все още няма кредити.
                   </td>
                 </tr>
               )}
@@ -154,11 +154,11 @@ export default function ClientPortalPage() {
       <div className="content-panel">
         <div className="section-title compact">
           <div>
-            <h3>Repayment plan</h3>
+            <h3>Погасителен план</h3>
             <p>
               {selectedCredit
-                ? `Credit #${selectedCredit.id} — ${selectedCredit.creditProductName}`
-                : 'Choose a credit to see the plan.'}
+                ? `Кредит #${selectedCredit.id} — ${selectedCredit.creditProductName}`
+                : 'Изберете кредит, за да видите плана.'}
             </p>
           </div>
         </div>
@@ -168,7 +168,7 @@ export default function ClientPortalPage() {
           value={selectedCreditId}
           onChange={(event) => setSelectedCreditId(event.target.value)}
         >
-          <option value="">Choose credit</option>
+          <option value="">Изберете кредит</option>
           {credits.map((credit) => (
             <option key={credit.id} value={credit.id}>
               #{credit.id} - {credit.creditProductName} - {formatMoney(credit.principalAmount)}
@@ -180,14 +180,14 @@ export default function ClientPortalPage() {
           <table className="table table-sm table-hover align-middle">
             <thead>
               <tr>
-                <th>No.</th>
-                <th>Due date</th>
-                <th>Payment</th>
-                <th>Principal</th>
-                <th>Interest</th>
-                <th>Remaining</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>№</th>
+                <th>Падеж</th>
+                <th>Вноска</th>
+                <th>Главница</th>
+                <th>Лихва</th>
+                <th>Остатък</th>
+                <th>Статус</th>
+                <th>Действие</th>
               </tr>
             </thead>
             <tbody>
@@ -211,7 +211,7 @@ export default function ClientPortalPage() {
                       disabled={installment.status === 'PAID'}
                       onClick={() => payInstallment(installment.id)}
                     >
-                      Pay
+                      Плати
                     </button>
                   </td>
                 </tr>
@@ -219,7 +219,7 @@ export default function ClientPortalPage() {
               {installments.length === 0 && (
                 <tr>
                   <td colSpan="8" className="empty-cell">
-                    No repayment plan selected.
+                    Не е избран погасителен план.
                   </td>
                 </tr>
               )}

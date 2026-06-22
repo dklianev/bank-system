@@ -83,7 +83,7 @@ export default function CreditsPaymentsPage() {
       setCreditForm(emptyCredit)
       await loadData()
       setSelectedCreditId(String(credit.id))
-      setMessage('Credit was granted and repayment plan was generated.')
+      setMessage('Кредитът е отпуснат и погасителният план е генериран.')
     } catch (err) {
       setError(err.message)
     }
@@ -97,7 +97,7 @@ export default function CreditsPaymentsPage() {
       await api.payInstallment(installmentId)
       await loadData()
       await loadInstallments(selectedCreditId)
-      setMessage('Installment was marked as paid.')
+      setMessage('Вноската е отбелязана като платена.')
     } catch (err) {
       setError(err.message)
     }
@@ -107,7 +107,7 @@ export default function CreditsPaymentsPage() {
     <section>
       <div className="section-title">
         <div>
-          <h2>Credits and payments</h2>
+          <h2>Кредити и плащания</h2>
           <p>Модул на Адриан: кредити, анюитетен план и плащания.</p>
         </div>
       </div>
@@ -117,9 +117,9 @@ export default function CreditsPaymentsPage() {
 
       <div className="two-column">
         <div className="content-panel">
-          <h3>Grant credit</h3>
+          <h3>Отпускане на кредит</h3>
           <form onSubmit={submitCredit}>
-            <label className="form-label">Client</label>
+            <label className="form-label">Клиент</label>
             <select
               className="form-select mb-3"
               value={creditForm.clientId}
@@ -128,7 +128,7 @@ export default function CreditsPaymentsPage() {
               }
               required
             >
-              <option value="">Choose client</option>
+              <option value="">Изберете клиент</option>
               {clients.map((client) => (
                 <option key={client.id} value={client.id}>
                   {client.displayName} ({client.clientType})
@@ -136,7 +136,7 @@ export default function CreditsPaymentsPage() {
               ))}
             </select>
 
-            <label className="form-label">Credit type</label>
+            <label className="form-label">Вид кредит</label>
             <select
               className="form-select mb-3"
               value={creditForm.creditProductId}
@@ -145,7 +145,7 @@ export default function CreditsPaymentsPage() {
               }
               required
             >
-              <option value="">Choose type</option>
+              <option value="">Изберете вид</option>
               {products.map((product) => (
                 <option key={product.id} value={product.id}>
                   {product.name}
@@ -155,13 +155,13 @@ export default function CreditsPaymentsPage() {
 
             {selectedProduct && (
               <div className="limits-box">
-                Rate: {selectedProduct.annualInterestRate}% | Max amount:{' '}
-                {formatMoney(selectedProduct.maxAmount)} | Max term:{' '}
-                {selectedProduct.maxTermMonths} months
+                Лихва: {selectedProduct.annualInterestRate}% | Макс. сума:{' '}
+                {formatMoney(selectedProduct.maxAmount)} | Макс. срок:{' '}
+                {selectedProduct.maxTermMonths} месеца
               </div>
             )}
 
-            <label className="form-label">Principal amount</label>
+            <label className="form-label">Отпусната сума</label>
             <input
               className="form-control mb-3"
               type="number"
@@ -174,7 +174,7 @@ export default function CreditsPaymentsPage() {
               required
             />
 
-            <label className="form-label">Term in months</label>
+            <label className="form-label">Срок (месеци)</label>
             <input
               className="form-control mb-3"
               type="number"
@@ -186,7 +186,7 @@ export default function CreditsPaymentsPage() {
               required
             />
 
-            <label className="form-label">Start date</label>
+            <label className="form-label">Начална дата</label>
             <input
               className="form-control mb-3"
               type="date"
@@ -198,21 +198,21 @@ export default function CreditsPaymentsPage() {
             />
 
             <button className="btn btn-primary w-100" type="submit">
-              Grant credit
+              Отпусни кредит
             </button>
           </form>
         </div>
 
         <div className="content-panel">
-          <h3>Credit products</h3>
+          <h3>Кредитни продукти</h3>
           <div className="table-responsive">
             <table className="table table-sm align-middle">
               <thead>
                 <tr>
-                  <th>Type</th>
-                  <th>Rate</th>
-                  <th>Max amount</th>
-                  <th>Max term</th>
+                  <th>Вид</th>
+                  <th>Лихва</th>
+                  <th>Макс. сума</th>
+                  <th>Макс. срок</th>
                 </tr>
               </thead>
               <tbody>
@@ -231,19 +231,19 @@ export default function CreditsPaymentsPage() {
       </div>
 
       <div className="content-panel">
-        <h3>Credits</h3>
+        <h3>Кредити</h3>
         <div className="table-responsive">
           <table className="table table-hover align-middle">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Client</th>
-                <th>Type</th>
-                <th>Amount</th>
-                <th>Term</th>
-                <th>Monthly payment</th>
-                <th>Status</th>
-                <th>Plan</th>
+                <th>Клиент</th>
+                <th>Вид</th>
+                <th>Сума</th>
+                <th>Срок</th>
+                <th>Месечна вноска</th>
+                <th>Статус</th>
+                <th>План</th>
               </tr>
             </thead>
             <tbody>
@@ -266,7 +266,7 @@ export default function CreditsPaymentsPage() {
                       type="button"
                       onClick={() => setSelectedCreditId(String(credit.id))}
                     >
-                      Open
+                      Преглед
                     </button>
                   </td>
                 </tr>
@@ -274,7 +274,7 @@ export default function CreditsPaymentsPage() {
               {credits.length === 0 && (
                 <tr>
                   <td colSpan="8" className="empty-cell">
-                    No credits yet.
+                    Все още няма кредити.
                   </td>
                 </tr>
               )}
@@ -286,11 +286,11 @@ export default function CreditsPaymentsPage() {
       <div className="content-panel">
         <div className="section-title compact">
           <div>
-            <h3>Repayment plan</h3>
+            <h3>Погасителен план</h3>
             <p>
               {selectedCredit
-                ? `Credit #${selectedCredit.id} for ${selectedCredit.clientDisplayName}`
-                : 'Choose a credit to see the plan.'}
+                ? `Кредит #${selectedCredit.id} на ${selectedCredit.clientDisplayName}`
+                : 'Изберете кредит, за да видите плана.'}
             </p>
           </div>
         </div>
@@ -300,7 +300,7 @@ export default function CreditsPaymentsPage() {
           value={selectedCreditId}
           onChange={(event) => setSelectedCreditId(event.target.value)}
         >
-          <option value="">Choose credit</option>
+          <option value="">Изберете кредит</option>
           {credits.map((credit) => (
             <option key={credit.id} value={credit.id}>
               #{credit.id} - {credit.clientDisplayName} - {formatMoney(credit.principalAmount)}
@@ -312,14 +312,14 @@ export default function CreditsPaymentsPage() {
           <table className="table table-sm table-hover align-middle">
             <thead>
               <tr>
-                <th>No.</th>
-                <th>Due date</th>
-                <th>Payment</th>
-                <th>Principal</th>
-                <th>Interest</th>
-                <th>Remaining</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>№</th>
+                <th>Падеж</th>
+                <th>Вноска</th>
+                <th>Главница</th>
+                <th>Лихва</th>
+                <th>Остатък</th>
+                <th>Статус</th>
+                <th>Действие</th>
               </tr>
             </thead>
             <tbody>
@@ -343,7 +343,7 @@ export default function CreditsPaymentsPage() {
                       disabled={installment.status === 'PAID'}
                       onClick={() => payInstallment(installment.id)}
                     >
-                      Pay
+                      Плати
                     </button>
                   </td>
                 </tr>
@@ -351,7 +351,7 @@ export default function CreditsPaymentsPage() {
               {installments.length === 0 && (
                 <tr>
                   <td colSpan="8" className="empty-cell">
-                    No repayment plan selected.
+                    Не е избран погасителен план.
                   </td>
                 </tr>
               )}
