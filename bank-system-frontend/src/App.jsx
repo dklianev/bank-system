@@ -17,6 +17,11 @@ const adminPages = [
 
 const clientPages = [{ id: 'portal', label: 'Моят профил' }]
 
+const roleLabel = (role) => ({
+  ADMIN: 'Администратор',
+  CLIENT: 'Клиент',
+}[role] ?? role)
+
 export default function App() {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -98,7 +103,7 @@ export default function App() {
           </div>
           <div className="topbar-session">
             <span className="session-user">
-              {session.displayName} · {session.role}
+              {session.displayName} · {roleLabel(session.role)}
             </span>
             <button className="btn btn-sm btn-outline-secondary" type="button" onClick={logout}>
               Изход

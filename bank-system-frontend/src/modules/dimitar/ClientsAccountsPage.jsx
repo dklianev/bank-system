@@ -113,7 +113,7 @@ export default function ClientsAccountsPage() {
         clientId: Number(userForm.clientId),
       })
       setUserForm(emptyUser)
-      setMessage(`Достъпът „${created.username}" е създаден за ${created.clientDisplayName}.`)
+      setMessage(`Достъпът „${created.username}“ е създаден за ${created.clientDisplayName}.`)
     } catch (err) {
       setError(err.message)
     }
