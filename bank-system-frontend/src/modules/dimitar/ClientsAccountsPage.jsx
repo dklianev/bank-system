@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from '../../api'
 import StatusMessage from '../../components/StatusMessage'
-import { formatMoney, statusClass } from '../../utils'
+import { formatMoney, statusClass, accountStatusLabel, clientTypeLabel } from '../../utils'
 
 const emptyIndividual = {
   firstName: '',
@@ -172,7 +172,7 @@ export default function ClientsAccountsPage() {
               <option value="">Изберете клиент</option>
               {clients.map((client) => (
                 <option key={client.id} value={client.id}>
-                  {client.displayName} ({client.clientType})
+                  {client.displayName} ({clientTypeLabel(client.clientType)})
                 </option>
               ))}
             </select>
@@ -231,7 +231,7 @@ export default function ClientsAccountsPage() {
               {clients.map((client) => (
                 <tr key={client.id}>
                   <td>{client.id}</td>
-                  <td>{client.clientType}</td>
+                  <td>{clientTypeLabel(client.clientType)}</td>
                   <td>{client.displayName}</td>
                   <td>{client.identifier}</td>
                   <td>{client.representativeName ?? '-'}</td>
@@ -274,7 +274,7 @@ export default function ClientsAccountsPage() {
                   <td>{formatMoney(account.balance)}</td>
                   <td>
                     <span className={`status-chip ${statusClass(account.status)}`}>
-                      {account.status}
+                      {accountStatusLabel(account.status)}
                     </span>
                   </td>
                   <td>
@@ -320,7 +320,7 @@ export default function ClientsAccountsPage() {
               <option value="">Изберете клиент</option>
               {clients.map((client) => (
                 <option key={client.id} value={client.id}>
-                  {client.displayName} ({client.clientType})
+                  {client.displayName} ({clientTypeLabel(client.clientType)})
                 </option>
               ))}
             </select>
