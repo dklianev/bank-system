@@ -3,7 +3,7 @@ export default function ContributionPage() {
     <section>
       <div className="section-title">
         <div>
-          <h2>Team contribution</h2>
+          <h2>Принос на екипа</h2>
           <p>Разпределение на работата за документацията и защитата.</p>
         </div>
       </div>
@@ -31,7 +31,7 @@ export default function ContributionPage() {
       </div>
 
       <div className="content-panel">
-        <h3>Shared work</h3>
+        <h3>Обща работа</h3>
         <p className="mb-0">
           И двамата участват в интеграцията, тестовете, документацията и демо сценария.
           Разделението е по банкови модули, за да има ясен индивидуален принос.

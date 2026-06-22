@@ -18,14 +18,14 @@ async function request(path, options = {}) {
       ...options,
     })
   } catch {
-    throw new Error('Backend is not available. Start the Spring Boot application on localhost:8080.')
+    throw new Error('Backend-ът не е достъпен. Стартирайте Spring Boot приложението на localhost:8080.')
   }
 
   if (response.status === 401) {
     if (unauthorizedHandler) {
       unauthorizedHandler()
     }
-    const error = new Error('Your session has expired. Please sign in again.')
+    const error = new Error('Сесията изтече. Влезте отново.')
     error.unauthorized = true
     throw error
   }
@@ -34,7 +34,7 @@ async function request(path, options = {}) {
     const error = await response.json().catch(() => null)
     const message =
       error?.errors?.join(', ') ??
-      'Backend is not available. Start the Spring Boot application on localhost:8080.'
+      'Backend-ът не е достъпен. Стартирайте Spring Boot приложението на localhost:8080.'
     throw new Error(message)
   }
 
@@ -57,15 +57,15 @@ export const api = {
         body: new URLSearchParams({ username, password }),
       })
     } catch {
-      throw new Error('Backend is not available. Start the Spring Boot application on localhost:8080.')
+      throw new Error('Backend-ът не е достъпен. Стартирайте Spring Boot приложението на localhost:8080.')
     }
 
     if (response.status === 401) {
-      throw new Error('Invalid username or password.')
+      throw new Error('Грешно потребителско име или парола.')
     }
 
     if (!response.ok) {
-      throw new Error('Sign in failed. Please try again.')
+      throw new Error('Входът е неуспешен. Опитайте отново.')
     }
 
     return response.json()

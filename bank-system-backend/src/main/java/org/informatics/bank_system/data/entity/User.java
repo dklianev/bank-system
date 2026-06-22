@@ -19,9 +19,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /*
- * The entity implements UserDetails directly
- * and the Lombok getters for "authorities" and the four boolean flags provide the interface
- * methods. A CLIENT user is linked to exactly one bank client; ADMIN users have no client.
+ * The entity implements UserDetails directly; Lombok generates the getters for
+ * "authorities" and the four boolean flags that satisfy the interface. A CLIENT
+ * user is linked to exactly one bank client; ADMIN users have no client.
  */
 @Entity
 @Table(

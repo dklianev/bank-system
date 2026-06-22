@@ -9,13 +9,13 @@ import CreditsPaymentsPage from './modules/adrian/CreditsPaymentsPage'
 import './styles.css'
 
 const adminPages = [
-  { id: 'dashboard', label: 'Dashboard' },
-  { id: 'clients', label: 'Clients & Accounts' },
-  { id: 'credits', label: 'Credits & Payments' },
-  { id: 'contribution', label: 'Team Work' },
+  { id: 'dashboard', label: 'Табло' },
+  { id: 'clients', label: 'Клиенти и сметки' },
+  { id: 'credits', label: 'Кредити и плащания' },
+  { id: 'contribution', label: 'Екип' },
 ]
 
-const clientPages = [{ id: 'portal', label: 'My Banking' }]
+const clientPages = [{ id: 'portal', label: 'Моят профил' }]
 
 export default function App() {
   const [session, setSession] = useState(null)
@@ -50,7 +50,7 @@ export default function App() {
   }
 
   if (loading) {
-    return <div className="login-screen"><div className="login-card content-panel">Loading…</div></div>
+    return <div className="login-screen"><div className="login-card content-panel">Зареждане…</div></div>
   }
 
   if (!session) {
@@ -66,7 +66,7 @@ export default function App() {
         <div className="brand-block">
           <div className="brand-mark">EUR</div>
           <div>
-            <h1>Bank Registry</h1>
+            <h1>Банкова система</h1>
             <p>CSCB634 · Java/MySQL</p>
           </div>
         </div>
@@ -93,15 +93,15 @@ export default function App() {
       <main className="main-content">
         <header className="topbar">
           <div>
-            <strong>Bank operations ledger</strong>
-            <span>Client records, account register and credit repayment plans</span>
+            <strong>Банкови операции</strong>
+            <span>Клиенти, сметки и погасителни планове</span>
           </div>
           <div className="topbar-session">
             <span className="session-user">
               {session.displayName} · {session.role}
             </span>
             <button className="btn btn-sm btn-outline-secondary" type="button" onClick={logout}>
-              Logout
+              Изход
             </button>
           </div>
         </header>

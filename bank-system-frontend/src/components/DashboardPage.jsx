@@ -17,7 +17,7 @@ export default function DashboardPage() {
     <section>
       <div className="section-title">
         <div>
-          <h2>Dashboard</h2>
+          <h2>Табло</h2>
           <p>Общ преглед на банковата система.</p>
         </div>
       </div>
@@ -25,14 +25,14 @@ export default function DashboardPage() {
       {error && <div className="alert alert-danger">{error}</div>}
 
       <div className="stats-grid">
-        <Stat label="Clients" value={dashboard?.clientsCount ?? 0} />
-        <Stat label="Active accounts" value={dashboard?.activeAccountsCount ?? 0} />
-        <Stat label="Active credits" value={dashboard?.activeCreditsCount ?? 0} />
-        <Stat label="Credit principal" value={formatMoney(dashboard?.totalCreditPrincipal)} />
+        <Stat label="Клиенти" value={dashboard?.clientsCount ?? 0} />
+        <Stat label="Активни сметки" value={dashboard?.activeAccountsCount ?? 0} />
+        <Stat label="Активни кредити" value={dashboard?.activeCreditsCount ?? 0} />
+        <Stat label="Главница по кредити" value={formatMoney(dashboard?.totalCreditPrincipal)} />
       </div>
 
       <div className="content-panel">
-        <h3>Demo flow</h3>
+        <h3>Демонстрационен сценарий</h3>
         <ol className="mb-0">
           <li>Добавяне на клиент: физическо или юридическо лице.</li>
           <li>Откриване на банкова сметка към избран клиент.</li>

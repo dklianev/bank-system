@@ -64,7 +64,7 @@ export default function ClientsAccountsPage() {
       }
 
       await loadData()
-      setMessage('Client was saved successfully.')
+      setMessage('Клиентът е записан успешно.')
     } catch (err) {
       setError(err.message)
     }
@@ -83,7 +83,7 @@ export default function ClientsAccountsPage() {
       })
       setAccountForm(emptyAccount)
       await loadData()
-      setMessage('Bank account was opened successfully.')
+      setMessage('Сметката е открита успешно.')
     } catch (err) {
       setError(err.message)
     }
@@ -96,7 +96,7 @@ export default function ClientsAccountsPage() {
     try {
       await api.closeAccount(id)
       await loadData()
-      setMessage('Bank account was closed.')
+      setMessage('Сметката е закрита.')
     } catch (err) {
       setError(err.message)
     }
@@ -113,7 +113,7 @@ export default function ClientsAccountsPage() {
         clientId: Number(userForm.clientId),
       })
       setUserForm(emptyUser)
-      setMessage(`Login "${created.username}" was created for ${created.clientDisplayName}.`)
+      setMessage(`Достъпът „${created.username}" е създаден за ${created.clientDisplayName}.`)
     } catch (err) {
       setError(err.message)
     }
@@ -123,7 +123,7 @@ export default function ClientsAccountsPage() {
     <section>
       <div className="section-title">
         <div>
-          <h2>Clients and accounts</h2>
+          <h2>Клиенти и сметки</h2>
           <p>Модул на Димитър: клиенти, банкови сметки и основа на базата.</p>
         </div>
       </div>
@@ -133,16 +133,16 @@ export default function ClientsAccountsPage() {
 
       <div className="two-column">
         <div className="content-panel">
-          <h3>Add client</h3>
+          <h3>Добавяне на клиент</h3>
           <form onSubmit={submitClient}>
-            <label className="form-label">Client type</label>
+            <label className="form-label">Вид клиент</label>
             <select
               className="form-select mb-3"
               value={clientType}
               onChange={(event) => setClientType(event.target.value)}
             >
-              <option value="INDIVIDUAL">Individual client</option>
-              <option value="LEGAL">Legal client</option>
+              <option value="INDIVIDUAL">Физическо лице</option>
+              <option value="LEGAL">Юридическо лице</option>
             </select>
 
             {clientType === 'INDIVIDUAL' ? (
@@ -152,15 +152,15 @@ export default function ClientsAccountsPage() {
             )}
 
             <button className="btn btn-primary w-100" type="submit">
-              Save client
+              Запази клиент
             </button>
           </form>
         </div>
 
         <div className="content-panel">
-          <h3>Open account</h3>
+          <h3>Откриване на сметка</h3>
           <form onSubmit={submitAccount}>
-            <label className="form-label">Client</label>
+            <label className="form-label">Клиент</label>
             <select
               className="form-select mb-3"
               value={accountForm.clientId}
@@ -169,7 +169,7 @@ export default function ClientsAccountsPage() {
               }
               required
             >
-              <option value="">Choose client</option>
+              <option value="">Изберете клиент</option>
               {clients.map((client) => (
                 <option key={client.id} value={client.id}>
                   {client.displayName} ({client.clientType})
@@ -192,7 +192,7 @@ export default function ClientsAccountsPage() {
               required
             />
 
-            <label className="form-label">Initial balance</label>
+            <label className="form-label">Начална наличност</label>
             <input
               className="form-control mb-3"
               type="number"
@@ -206,25 +206,25 @@ export default function ClientsAccountsPage() {
             />
 
             <button className="btn btn-success w-100" type="submit">
-              Open account
+              Открий сметка
             </button>
           </form>
         </div>
       </div>
 
       <div className="content-panel">
-        <h3>Clients</h3>
+        <h3>Клиенти</h3>
         <div className="table-responsive">
           <table className="table table-hover align-middle">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Type</th>
-                <th>Name</th>
-                <th>EGN / EIK</th>
-                <th>Representative</th>
-                <th>Accounts</th>
-                <th>Credits</th>
+                <th>Вид</th>
+                <th>Име</th>
+                <th>ЕГН / ЕИК</th>
+                <th>Представител</th>
+                <th>Сметки</th>
+                <th>Кредити</th>
               </tr>
             </thead>
             <tbody>
@@ -242,7 +242,7 @@ export default function ClientsAccountsPage() {
               {clients.length === 0 && (
                 <tr>
                   <td colSpan="7" className="empty-cell">
-                    No clients yet.
+                    Все още няма клиенти.
                   </td>
                 </tr>
               )}
@@ -252,17 +252,17 @@ export default function ClientsAccountsPage() {
       </div>
 
       <div className="content-panel">
-        <h3>Bank accounts</h3>
+        <h3>Банкови сметки</h3>
         <div className="table-responsive">
           <table className="table table-hover align-middle">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>IBAN</th>
-                <th>Client</th>
-                <th>Balance</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>Клиент</th>
+                <th>Наличност</th>
+                <th>Статус</th>
+                <th>Действие</th>
               </tr>
             </thead>
             <tbody>
@@ -284,7 +284,7 @@ export default function ClientsAccountsPage() {
                       disabled={account.status === 'CLOSED'}
                       onClick={() => closeAccount(account.id)}
                     >
-                      Close
+                      Закрий
                     </button>
                   </td>
                 </tr>
@@ -292,7 +292,7 @@ export default function ClientsAccountsPage() {
               {accounts.length === 0 && (
                 <tr>
                   <td colSpan="6" className="empty-cell">
-                    No accounts yet.
+                    Все още няма сметки.
                   </td>
                 </tr>
               )}
@@ -302,13 +302,13 @@ export default function ClientsAccountsPage() {
       </div>
 
       <div className="content-panel">
-        <h3>Create login for client</h3>
+        <h3>Създаване на достъп за клиент</h3>
         <p className="login-hint">
           Дава на клиента достъп до собствените му сметки и кредити през клиентския портал.
         </p>
         <form onSubmit={submitUser} className="two-column">
           <div>
-            <label className="form-label">Client</label>
+            <label className="form-label">Клиент</label>
             <select
               className="form-select mb-3"
               value={userForm.clientId}
@@ -317,7 +317,7 @@ export default function ClientsAccountsPage() {
               }
               required
             >
-              <option value="">Choose client</option>
+              <option value="">Изберете клиент</option>
               {clients.map((client) => (
                 <option key={client.id} value={client.id}>
                   {client.displayName} ({client.clientType})
@@ -325,7 +325,7 @@ export default function ClientsAccountsPage() {
               ))}
             </select>
 
-            <label className="form-label">Username</label>
+            <label className="form-label">Потребителско име</label>
             <input
               className="form-control mb-3"
               minLength="3"
@@ -339,7 +339,7 @@ export default function ClientsAccountsPage() {
           </div>
 
           <div>
-            <label className="form-label">Password</label>
+            <label className="form-label">Парола</label>
             <input
               className="form-control mb-3"
               type="password"
@@ -353,7 +353,7 @@ export default function ClientsAccountsPage() {
             />
 
             <button className="btn btn-primary w-100 mt-1" type="submit">
-              Create login
+              Създай достъп
             </button>
           </div>
         </form>
@@ -365,21 +365,21 @@ export default function ClientsAccountsPage() {
 function IndividualClientForm({ form, setForm }) {
   return (
     <>
-      <label className="form-label">First name</label>
+      <label className="form-label">Име</label>
       <input
         className="form-control mb-3"
         value={form.firstName}
         onChange={(event) => setForm((current) => ({ ...current, firstName: event.target.value }))}
         required
       />
-      <label className="form-label">Last name</label>
+      <label className="form-label">Фамилия</label>
       <input
         className="form-control mb-3"
         value={form.lastName}
         onChange={(event) => setForm((current) => ({ ...current, lastName: event.target.value }))}
         required
       />
-      <label className="form-label">EGN</label>
+      <label className="form-label">ЕГН</label>
       <input
         className="form-control mb-3"
         value={form.egn}
@@ -393,7 +393,7 @@ function IndividualClientForm({ form, setForm }) {
 function LegalClientForm({ form, setForm }) {
   return (
     <>
-      <label className="form-label">Company name</label>
+      <label className="form-label">Име на фирмата</label>
       <input
         className="form-control mb-3"
         value={form.companyName}
@@ -402,14 +402,14 @@ function LegalClientForm({ form, setForm }) {
         }
         required
       />
-      <label className="form-label">EIK</label>
+      <label className="form-label">ЕИК</label>
       <input
         className="form-control mb-3"
         value={form.eik}
         onChange={(event) => setForm((current) => ({ ...current, eik: event.target.value }))}
         required
       />
-      <label className="form-label">Representative first name</label>
+      <label className="form-label">Име на представител</label>
       <input
         className="form-control mb-3"
         value={form.representativeFirstName}
@@ -418,7 +418,7 @@ function LegalClientForm({ form, setForm }) {
         }
         required
       />
-      <label className="form-label">Representative last name</label>
+      <label className="form-label">Фамилия на представител</label>
       <input
         className="form-control mb-3"
         value={form.representativeLastName}

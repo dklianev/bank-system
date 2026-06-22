@@ -29,12 +29,12 @@ export default function LoginPage({ onLoggedIn }) {
         <div className="brand-block">
           <div className="brand-mark">EUR</div>
           <div>
-            <h1>Bank Registry</h1>
+            <h1>Банкова система</h1>
             <p>CSCB634 · Java/MySQL</p>
           </div>
         </div>
 
-        <h3>Sign in</h3>
+        <h3>Вход</h3>
         <p className="login-hint">
           Служители влизат с административен профил. Клиентите използват профил, създаден от банката.
         </p>
@@ -42,7 +42,7 @@ export default function LoginPage({ onLoggedIn }) {
         <StatusMessage message={error} type="error" />
 
         <form onSubmit={submit}>
-          <label className="form-label">Username</label>
+          <label className="form-label">Потребителско име</label>
           <input
             className="form-control mb-3"
             type="text"
@@ -52,7 +52,7 @@ export default function LoginPage({ onLoggedIn }) {
             required
           />
 
-          <label className="form-label">Password</label>
+          <label className="form-label">Парола</label>
           <input
             className="form-control mb-3"
             type="password"
@@ -63,7 +63,7 @@ export default function LoginPage({ onLoggedIn }) {
           />
 
           <button className="btn btn-primary w-100" type="submit" disabled={busy}>
-            {busy ? 'Signing in…' : 'Sign in'}
+            {busy ? 'Влизане…' : 'Вход'}
           </button>
         </form>
       </div>
