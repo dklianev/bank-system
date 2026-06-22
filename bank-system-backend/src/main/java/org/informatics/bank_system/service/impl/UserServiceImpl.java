@@ -67,7 +67,6 @@ public class UserServiceImpl implements UserService {
         user.setClient(client);
         user = userRepository.save(user);
 
-        // Role owns the many-to-many relation, so the link is saved from the role side.
         clientRole.getUsers().add(user);
         roleRepository.save(clientRole);
         user.getAuthorities().add(clientRole);

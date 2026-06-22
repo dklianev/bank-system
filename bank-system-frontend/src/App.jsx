@@ -46,11 +46,7 @@ export default function App() {
   }
 
   const logout = async () => {
-    try {
-      await api.logout()
-    } catch {
-      // Ignore network errors on logout; the session is cleared locally regardless.
-    }
+    await api.logout().catch(() => {})
     setSession(null)
   }
 

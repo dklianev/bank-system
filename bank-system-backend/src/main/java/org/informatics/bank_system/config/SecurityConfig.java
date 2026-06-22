@@ -22,12 +22,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/*
- * Classic Spring Security setup (DaoAuthenticationProvider + BCrypt + our own User entity),
- * adapted for the React SPA client: instead of redirects and HTML pages the chain answers
- * with JSON bodies and plain HTTP status codes. Login and logout live under /api so the
- * Vite dev proxy forwards them without extra configuration.
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -49,8 +43,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, ObjectMapper objectMapper, UserService userService)
             throws Exception {
         http
-                // The API is consumed by the SPA and tools such as Postman; Thymeleaf-style
-                // CSRF form tokens do not apply here.
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/login", "/api/logout").permitAll()

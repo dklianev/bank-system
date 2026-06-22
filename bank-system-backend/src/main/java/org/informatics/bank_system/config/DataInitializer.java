@@ -96,7 +96,6 @@ public class DataInitializer implements CommandLineRunner {
         user.setEnabled(true);
         user = userRepository.save(user);
 
-        // Role owns the many-to-many relation, so the link is saved from the role side.
         role.getUsers().add(user);
         roleRepository.save(role);
     }

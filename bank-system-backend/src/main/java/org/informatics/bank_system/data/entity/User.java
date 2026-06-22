@@ -18,11 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.HashSet;
 import java.util.Set;
 
-/*
- * The entity implements UserDetails directly; Lombok generates the getters for
- * "authorities" and the four boolean flags that satisfy the interface. A CLIENT
- * user is linked to exactly one bank client; ADMIN users have no client.
- */
 @Entity
 @Table(
         name = "users",
