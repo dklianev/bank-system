@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { api } from '../api'
 import StatusMessage from './StatusMessage'
-import { formatDate, formatMoney, statusClass } from '../utils'
+import { formatDate, formatMoney, statusClass, accountStatusLabel, creditStatusLabel, installmentStatusLabel, creditTypeLabel } from '../utils'
 
 export default function ClientPortalPage() {
   const [accounts, setAccounts] = useState([])
@@ -83,7 +83,7 @@ export default function ClientPortalPage() {
                   <td>{formatMoney(account.balance)}</td>
                   <td>
                     <span className={`status-chip ${statusClass(account.status)}`}>
-                      {account.status}
+                      {accountStatusLabel(account.status)}
                     </span>
                   </td>
                 </tr>
@@ -119,13 +119,13 @@ export default function ClientPortalPage() {
               {credits.map((credit) => (
                 <tr key={credit.id}>
                   <td>{credit.id}</td>
-                  <td>{credit.creditProductName}</td>
+                  <td>{creditTypeLabel(credit.creditProductCode)}</td>
                   <td>{formatMoney(credit.principalAmount)}</td>
                   <td>{credit.termMonths}</td>
                   <td>{formatMoney(credit.monthlyPayment)}</td>
                   <td>
                     <span className={`status-chip ${statusClass(credit.status)}`}>
-                      {credit.status}
+                      {creditStatusLabel(credit.status)}
                     </span>
                   </td>
                   <td>
@@ -157,7 +157,7 @@ export default function ClientPortalPage() {
             <h3>Погасителен план</h3>
             <p>
               {selectedCredit
-                ? `Кредит #${selectedCredit.id} — ${selectedCredit.creditProductName}`
+                ? `Кредит #${selectedCredit.id} — ${creditTypeLabel(selectedCredit.creditProductCode)}`
                 : 'Изберете кредит, за да видите плана.'}
             </p>
           </div>
@@ -171,7 +171,7 @@ export default function ClientPortalPage() {
           <option value="">Изберете кредит</option>
           {credits.map((credit) => (
             <option key={credit.id} value={credit.id}>
-              #{credit.id} - {credit.creditProductName} - {formatMoney(credit.principalAmount)}
+              #{credit.id} - {creditTypeLabel(credit.creditProductCode)} - {formatMoney(credit.principalAmount)}
             </option>
           ))}
         </select>
@@ -201,7 +201,7 @@ export default function ClientPortalPage() {
                   <td>{formatMoney(installment.remainingPrincipal)}</td>
                   <td>
                     <span className={`status-chip ${statusClass(installment.status)}`}>
-                      {installment.status}
+                      {installmentStatusLabel(installment.status)}
                     </span>
                   </td>
                   <td>

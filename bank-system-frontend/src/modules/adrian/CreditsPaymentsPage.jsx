@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { api } from '../../api'
 import StatusMessage from '../../components/StatusMessage'
-import { formatDate, formatMoney, statusClass } from '../../utils'
+import { formatDate, formatMoney, statusClass, creditStatusLabel, installmentStatusLabel, clientTypeLabel, creditTypeLabel } from '../../utils'
 
 const emptyCredit = {
   clientId: '',
@@ -131,7 +131,7 @@ export default function CreditsPaymentsPage() {
               <option value="">Изберете клиент</option>
               {clients.map((client) => (
                 <option key={client.id} value={client.id}>
-                  {client.displayName} ({client.clientType})
+                  {client.displayName} ({clientTypeLabel(client.clientType)})
                 </option>
               ))}
             </select>
@@ -148,7 +148,7 @@ export default function CreditsPaymentsPage() {
               <option value="">Изберете вид</option>
               {products.map((product) => (
                 <option key={product.id} value={product.id}>
-                  {product.name}
+                  {creditTypeLabel(product.code)}
                 </option>
               ))}
             </select>
@@ -218,7 +218,7 @@ export default function CreditsPaymentsPage() {
               <tbody>
                 {products.map((product) => (
                   <tr key={product.id}>
-                    <td>{product.name}</td>
+                    <td>{creditTypeLabel(product.code)}</td>
                     <td>{product.annualInterestRate}%</td>
                     <td>{formatMoney(product.maxAmount)}</td>
                     <td>{product.maxTermMonths}</td>
@@ -251,13 +251,13 @@ export default function CreditsPaymentsPage() {
                 <tr key={credit.id}>
                   <td>{credit.id}</td>
                   <td>{credit.clientDisplayName}</td>
-                  <td>{credit.creditProductName}</td>
+                  <td>{creditTypeLabel(credit.creditProductCode)}</td>
                   <td>{formatMoney(credit.principalAmount)}</td>
                   <td>{credit.termMonths}</td>
                   <td>{formatMoney(credit.monthlyPayment)}</td>
                   <td>
                     <span className={`status-chip ${statusClass(credit.status)}`}>
-                      {credit.status}
+                      {creditStatusLabel(credit.status)}
                     </span>
                   </td>
                   <td>
@@ -333,7 +333,7 @@ export default function CreditsPaymentsPage() {
                   <td>{formatMoney(installment.remainingPrincipal)}</td>
                   <td>
                     <span className={`status-chip ${statusClass(installment.status)}`}>
-                      {installment.status}
+                      {installmentStatusLabel(installment.status)}
                     </span>
                   </td>
                   <td>
